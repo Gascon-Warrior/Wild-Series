@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!
+{% endblock %}
+
+{% block body %}
+
+	<table class="table mt-5 w-50 mx-auto">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Link</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for category in categories %}
+				<tr>
+					<th scope="row">{{loop.index}}</th>
+					<td>{{category.name}}</td>
+				    <td><a href="{{path('category_show', {categoryName: category.name})}}" class="btn btn-primary">Read more</a></td>
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+{% endblock %}

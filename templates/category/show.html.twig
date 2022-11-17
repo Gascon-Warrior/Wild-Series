@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block title %}Catégorie
+	{# {{ category.name }} #}
+{% endblock %}
+{% block body %}
+	<div
+		class="media mt-5">
+		{# <img class="align-self-start mr-3" src="{{ asset('build/images/') }}{{program.poster}}" alt="{{ program.title }} poster"> #}
+		<div class="media-body">
+
+			{% for cat in category %}
+				<h1 class="mt-0">{{ cat.name}}</h1>
+			{% endfor %}
+			{% for program in programs %}
+				<h2>{{program.title}}</h2>
+			{% endfor %}
+			{% for program in programs %}
+				<div class="card col-3 p-0" style="width: 18rem;">
+					<img class="card-img-top" height="200" src="{{ asset('build/images/') }}{{ program.poster }}" alt="Card image cap">
+					<div class="card-body bg-success text-primary">
+						{{loop.index}}
+						<h5 class="card-title">{{ program.title}}</h5>
+						<h6 class="">{{ program.category.name}}</h6<pclass="card-text">
+						{{ program.synopsis}}</p>
+					<a href="{{path('program_show', {id: program.id})}}" class="btn btn-primary">Read more</a>
+				</div>
+			</div>
+		{% endfor %}
+		{# <p>{{ program.synopsis }}</p>
+					<p>Catégorie :
+						{{ program.category.name }}</p> #}
+	</div>
+</div>
+
+<a href="{{ path('program_index') }}">
+	Retour à la liste des programmes
+</a>{% endblock %}
