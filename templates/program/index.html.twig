@@ -1,8 +1,25 @@
 {% extends "base.html.twig" %}
-{% block title %}Wild Series{% endblock %}
+{% block title %}All programs{% endblock %}
 
 {% block body %}
     {# {% include "_navbar.html.twig" %} #}
-    <h1>{{ website }} index</h1>
-    <img src="{{ asset('build/images/test.png') }}" alt=""/>
+    {# <img src="{{ asset('build/images/test.png') }}" alt=""/> #}
+    <div class="container-fluid d-grid w-50 mx-auto mt-5">
+    <h1 class='text-success p-0'>Séries de la table progam : </h1>
+    <div class="row gap-auto">
+    {% for program in programs %}
+		<div class="card col-3 p-0" style="width: 18rem;">
+			<img class="card-img-top" height="200" src="{{ asset('build/images/') }}{{ program.poster }}" alt="Card image cap">
+			<div class="card-body bg-success text-primary">
+            {{loop.index}}
+				<h5 class="card-title">{{ program.title}}</h5>
+                <h6 class="">{{ program.category.name}}</h6
+				<p class="card-text">{{ program.synopsis}}</p>
+				<a href="{{path('program_show', {id: program.id})}}" class="btn btn-primary">Read more</a>
+			</div>
+		</div>
+	{% endfor %}
+    </div>
+     </div>
+	
 {% endblock %}

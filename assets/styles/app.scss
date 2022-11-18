@@ -1,8 +1,9 @@
 
-$primary : yellow;
+$primary : black;
+$success : grey;
 
 @import "~bootstrap/scss/bootstrap";
 
 body {
-    background-color: red;
+    background-color: #F5F5F5;
 }
