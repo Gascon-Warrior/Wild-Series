@@ -1,15 +1,26 @@
 {% extends "base.html.twig" %}
 {% block title %}Programme
-	{{ program.id }}
 {% endblock %}
 {% block body %}
-	<div class="media mt-5">
+	<div class="media w-50 mx-auto mt-5">
 		<img class="align-self-start mr-3" src="{{ asset('build/images/') }}{{program.poster}}" alt="{{ program.title }} poster">
 		<div class="media-body">
 			<h1 class="mt-0">{{ program.title }}</h1>
 			<p>{{ program.synopsis }}</p>
 			<p>Catégorie :
 				{{ program.category.name }}</p>
+		</div>
+
+		<div class="d-flex">
+			{% for seasons in program.seasons %}
+				<div class="w-50">
+					<h3>Saison:
+						{{ seasons.number}}</h3>
+					<p>Description:
+						{{seasons.description}}</p>
+					<a href="{{path('program_season_show', {program: program.id, seasonsId: seasons.id})}}" class="btn btn-primary">Read more</a>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 

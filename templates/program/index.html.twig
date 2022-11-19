@@ -7,6 +7,7 @@
     <div class="container-fluid d-grid w-50 mx-auto mt-5">
     <h1 class='text-success p-0'>Séries de la table progam : </h1>
     <div class="row gap-auto">
+   
     {% for program in programs %}
 		<div class="card col-3 p-0" style="width: 18rem;">
 			<img class="card-img-top" height="200" src="{{ asset('build/images/') }}{{ program.poster }}" alt="Card image cap">

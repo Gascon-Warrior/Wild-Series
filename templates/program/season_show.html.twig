@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	{{program.title}}
+	|
+	{{season.description}}
+{% endblock %}
+{% block body %}
+	<div class="container-fluid w-50">
+    <div >
+		<h1>{{program.title}}</h1><br>
+
+        <h2>Saison N°{{season.number}}: {{season.description}}</h2>
+		<div class="card col-3 p-0 mt-3 mb-3" style="width: 18rem;">
+			<img class="card-img-top" height="200" src="{{ asset('build/images/') }}{{ program.poster }}" alt="Card image cap">
+		</div>
+       </div> 
+		<div class="d-flex flex-column">
+        <h3 class="mt-5 mb-3">Liste des épisodes: </h3>
+			{% for episode in season.episodes %}
+
+				<h4>Episode {{loop.index}}:
+					{{episode.title}}</h4>
+				<p>{{episode.synopsis}}</p>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
