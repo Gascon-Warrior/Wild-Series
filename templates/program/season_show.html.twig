@@ -19,9 +19,10 @@
         <h3 class="mt-5 mb-3">Liste des épisodes: </h3>
 			{% for episode in season.episodes %}
 
-				<h4>Episode {{loop.index}}:
+				<h4>Episode {{episode.number}}:
 					{{episode.title}}</h4>
 				<p>{{episode.synopsis}}</p>
+					<a href="{{path('program_episode_show', {program_id: program.id, season_id: season.id, episode_id: episode.id})}}" class="btn btn-primary mb-5 w-25">Read more</a>
 			{% endfor %}
 		</div>
 	</div>
