@@ -6,9 +6,12 @@ use App\Entity\Program;
 use App\Entity\Season;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
+use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use function PHPSTORM_META\type;
 
 class ProgramController extends AbstractController
 {
@@ -24,7 +27,7 @@ class ProgramController extends AbstractController
     
     #[Route('/program/{id}', methods:['GET'], name:'program_show', requirements:['id' => '\d+'])]
     public function show(Program $program): Response
-    { 
+    {           
         return $this->render('/program/show.html.twig', ['program' => $program]);
     }
     
@@ -33,6 +36,5 @@ class ProgramController extends AbstractController
     {
         return $this->render('/program/season_show.html.twig', ['program' => $program, 'season' => $season]);
     }
-
-
+ 
 }
