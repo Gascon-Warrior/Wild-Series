@@ -7,22 +7,25 @@
 {% endblock %}
 {% block body %}
 	<div class="container-fluid w-50">
-    <div >
-		<h1>{{program.title}}</h1><br>
+		<div>
+			<h1>{{program.title}}</h1><br>
 
-        <h2>Saison N°{{season.number}}: {{season.description}}</h2>
-		<div class="card col-3 p-0 mt-3 mb-3" style="width: 18rem;">
-			<img class="card-img-top" height="200" src="{{ asset('build/images/') }}{{ program.poster }}" alt="Card image cap">
+			<h2>Saison N°{{season.number}}:
+				{{season.description}}</h2>
+			<div class="card col-3 p-0 mt-3 mb-3" style="width: 18rem;">
+				<img class="card-img-top" height="200" src="{{ asset('build/images/') }}{{ program.poster }}" alt="Card image cap">
+			</div>
 		</div>
-       </div> 
 		<div class="d-flex flex-column">
-        <h3 class="mt-5 mb-3">Liste des épisodes: </h3>
+			<h3 class="mt-5 mb-3">Liste des épisodes:
+			</h3>
 			{% for episode in season.episodes %}
 
-				<h4>Episode {{episode.number}}:
+				<h4>Episode
+					{{episode.number}}:
 					{{episode.title}}</h4>
 				<p>{{episode.synopsis}}</p>
-					<a href="{{path('program_episode_show', {program_id: program.id, season_id: season.id, episode_id: episode.id})}}" class="btn btn-primary mb-5 w-25">Read more</a>
+				<a href="{{path('program_episode_show', {program_id: program.id, season_id: season.id, episode_id: episode.id})}}" class="btn btn-primary mb-5 w-25">Read more</a>
 			{% endfor %}
 		</div>
 	</div>

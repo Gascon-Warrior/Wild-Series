@@ -19,27 +19,27 @@ class ProgramController extends AbstractController
 {
     #[Route('/program/', name: 'program_index')]
     public function index(ProgramRepository $programRepository): Response
-    {        
+    {
         $programs = $programRepository->findAll();
-        
+
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
-         ]);
+        ]);
     }
-    
-    #[Route('/program/{id}', methods:['GET'], name:'program_show', requirements:['id' => '\d+'])]
+
+    #[Route('/program/{id}', methods: ['GET'], name: 'program_show', requirements: ['id' => '\d+'])]
     public function show(Program $program): Response
-    {           
+    {
         return $this->render('/program/show.html.twig', ['program' => $program]);
     }
-    
-    #[Route('/program/{program}/seasons/{seasonsId}', methods:['GET'], name:'program_season_show', requirements:['id' => '\d+'])]
+
+    #[Route('/program/{program}/seasons/{seasonsId}', methods: ['GET'], name: 'program_season_show', requirements: ['id' => '\d+'])]
     public function showSeason(Program $program, Season $season): Response
     {
         return $this->render('/program/season_show.html.twig', ['program' => $program, 'season' => $season]);
     }
 
-    #[Route('/program/{program_id}/season/{season_id}/episode/{episode_id}', methods:['GET'], name:'program_episode_show')]
+    #[Route('/program/{program_id}/season/{season_id}/episode/{episode_id}', methods: ['GET'], name: 'program_episode_show')]
     #[Entity('program', options: ['id' => 'program_id'])]
     #[Entity('season', options: ['id' => 'season_id'])]
     #[Entity('episode', options: ['id' => 'episode_id'])]
@@ -47,5 +47,4 @@ class ProgramController extends AbstractController
     {
         return $this->render('program/episode_show.html.twig', ['program' => $program, 'season' => $season, 'episode' => $episode]);
     }
- 
 }
