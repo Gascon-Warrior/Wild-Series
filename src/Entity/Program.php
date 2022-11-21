@@ -2,13 +2,18 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
+#[Assert\EnableAutoMapping]
+#[UniqueEntity(fields: ['title'],
+    message: 'Ce titre existe déjà.')]
 class Program
 {
     #[ORM\Id]
@@ -20,9 +25,19 @@ class Program
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern: '/([pP]lus belle la vie)/',
+        match: false,
+        message: 'On parle de vrai series ici !🖕'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Regex(
+        pattern: '/([pP]lus belle la vie)/',
+        match: false,
+        message: 'On parle de vrai series ici !🖕'
+    )]
     private ?string $synopsis = null;
 
     #[ORM\Column(length: 255, nullable: true)]
