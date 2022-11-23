@@ -2,63 +2,43 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Episode;
-use App\Entity\Program;
+
 use App\Entity\Season;
+use App\DataFixtures\ProgramFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 //Tout d'abord nous ajoutons la classe Factory de FakerPhp
 use Faker\Factory;
-use Symfony\Component\Validator\Constraints\Length;
 
 class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
-    public $season = [];
+    public const SEASON_PER_PROGRAM = 5;
+    public const PREFIX = "season_";
     public function load(ObjectManager $manager): void
     {
         //Puis ici nous demandons à la Factory de nous fournir un Faker
         $faker = Factory::create();
-        $programFixtures = new ProgramFixtures();
+        //Je boucle sur le nombre de programmes
+        for ($i = 0; $i < ProgramFixtures::TOTAL_FIXTURES; $i++) {
+            //Je récupère la reference a un program pour l'utiliser dans setProgram
+            $program = $this->getReference(ProgramFixtures::PREFIX . $i);
 
-        /**
-         * L'objet $faker que tu récupère est l'outil qui va te permettre 
-         * de te générer toutes les données que tu souhaites
-         */
-        
-        foreach ($programFixtures::PROGRAMS as $serie) {
-            $serieName = $serie['title'];
-
-            for ($i = 0; $i < 5; $i++) {
+            // Je boucle sur ma constante  SEASON_PER_PROGRAM
+            for ($j = 0; $j < self::SEASON_PER_PROGRAM; $j++) {
                 $season = new Season();
-                // Numéro de saison
-                $number = $i+1;
                 //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
-                $season->setNumber($number);
+                $season->setNumber($j + 1);
                 $season->setYear($faker->year());
                 $season->setDescription($faker->paragraphs(3, true));
-                // $season->setProgram($this->getReference('program_' . $faker->numberBetween(0, 4)));
-                $this->addReference('season_' . $i.'_'.$serieName, $season);
-                $season->setProgram($this->getReference('program_' . $serie['title']));
-
+                $season->setProgram($program);
+                //J'utilise la reference a program recupérée plus haut
                 $manager->persist($season);
-
-                for($j = 0; $j<10; $j++){
-                    $episode = new Episode();
-                    //Ce Faker va nous permettre d'alimenter l'instance de episode que l'on souhaite ajouter en base
-                    $episode->setNumber($faker->numberBetween(1, 10));
-                    $episode->setTitle($faker->sentence($faker->numberBetween(1, 5)));
-                    $episode->setSynopsis($faker->paragraphs(3, true));
-                    $episode->setSeason($this->getReference('season_' . $i.'_'.$serieName));
-    
-                    $manager->persist($episode);
-                }
-                
+                $this->addReference(ProgramFixtures::PREFIX . $i . '_' . self::PREFIX . $j, $season);
             }
+        }
 
-        } 
-        
         $manager->flush();
     }
 

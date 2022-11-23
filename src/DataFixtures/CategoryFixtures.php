@@ -8,6 +8,8 @@ use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixtures extends Fixture
 {
+    public const PREFIX ="category_";
+    
     const CATEGORIES = [
         'Action',
         'Aventure',
@@ -22,7 +24,7 @@ class CategoryFixtures extends Fixture
             $category = new Category();
             $category->setName($categoryName);
             $manager->persist($category);
-            $this->addReference('category_' . $categoryName, $category);
+            $this->addReference(self::PREFIX . $categoryName, $category);
         }
 
         $manager->flush();

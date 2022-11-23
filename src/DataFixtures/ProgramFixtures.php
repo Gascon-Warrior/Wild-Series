@@ -6,87 +6,36 @@ use App\Entity\Program;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
+
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PREFIX = "program_";
+    public const TOTAL_FIXTURES = 10;
 
-    const PROGRAMS = [
-        [
-            'name' => 'The Wilders',
-            'title' => 'The Wilders',
-            'year' => 2000,
-            'synopsis' => 'Ils sont de retour',
-            'poster' => 'wilders.jpg',
-            'category' => 'Action',
-            'country' => 'France',
-        ],
-        [
-            'name' => 'Noé',
-            'title' => 'Noé',
-            'year' => 2000,
-            'synopsis' => 'Ils ne vont jamais s\'arreter',
-            'poster' => 'noe.jpg',
-            'category' => 'Aventure',
-            'country' => 'France',
-
-        ],
-        [
-            'name' => 'Les rebus',
-            'title' => 'Les rebus',
-            'year' => 2000,
-            'synopsis' => 'Ils ne lacherons rien',
-            'poster' => 'rebus.jpg',
-            'category' => 'Comédie',
-            'country' => 'France',
-
-
-        ],
-        [
-            'name' => 'The Crown',
-            'title' => 'The Crown',
-            'year' => 2000,
-            'synopsis' => 'Ils sont là et il était temps',
-            'poster' => 'crown.jpg',
-            'category' => 'Fantastique',
-            'country' => 'France',
-
-
-        ],
-        [
-            'name' => 'Jurassic Park',
-            'title' => 'Jurassic Park',
-            'year' => 2000,
-            'synopsis' => 'L\'armée approche',
-            'poster' => 'jurassic',
-            'category' => 'Horreur',
-            'country' => 'France',
-
-
-        ]
-
-    ];
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager)
     {
-
-        foreach (SELF::PROGRAMS as $key => $serie) {
+        $faker = Factory::create();
+        for ($i = 0; $i < self::TOTAL_FIXTURES; $i++) {
+            $category = $this->getReference(CategoryFixtures::PREFIX . CategoryFixtures::CATEGORIES[$faker->numberBetween(0, 4)]);
             $program = new Program();
-            $program->setName($serie['name']);
-            $program->setTitle($serie['title']);
-            $program->setYear($serie['year']);
-            $program->setSynopsis($serie['synopsis']);
-            $program->setPoster($serie['poster']);
-            $program->setCategory($this->getReference('category_' . $serie['category']));
-            $program->setCountry($serie['country']);
-
+            $program->setName($faker->sentence($faker->numberBetween(3, 7)));
+            $program->setTitle($faker->sentence($faker->numberBetween(3, 7)));
+            $program->setSynopsis($faker->sentence($faker->numberBetween(9, 15)));
+            $program->setPoster($faker->imageURL());
+            $program->setCountry($faker->country());
+            $program->setYear($faker->numberBetween(1900, 2022));
+            $program->setCategory($category);
             $manager->persist($program);
-            $this->addReference('program_' . $serie['title'], $program);
+            //J'ajoute une reference pour pourvoir la recupérer  dans SeasonFixture avec getReference
+            $this->addReference(self::PREFIX . $i, $program);
         }
-
         $manager->flush();
     }
-
     public function getDependencies()
     {
+        // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
             CategoryFixtures::class,
         ];
